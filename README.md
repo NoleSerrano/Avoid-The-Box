@@ -6,7 +6,7 @@ Arrow keys and space to create walls\
 Note: The space is used to create edge walls on the chance that the box flies near the middle of the screen.
 
 # Objective of the Game
-Avoid the box flying inside the screen by placing walls where the box is currently not at
+Avoid the box flying inside the screen by placing walls where the box is currently not at. The speed of the box has a chance to change at each collision.
 
 # Video of Gameplay
 Link: https://gyazo.com/e85436737ae5cca00736f7005b81ffd7
