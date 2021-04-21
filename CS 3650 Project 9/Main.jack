@@ -1,0 +1,93 @@
+// CS 3650 Project 9
+class Main {
+
+	// note: functions can't access "this" pointers (no objects or arrays only primitive types)
+	// static variables so all methods can access them
+	static Box box; 	// box of the game
+	static int wall;	// current wall set by player
+	
+	function void main() {
+		// var statements only allowed at beginning
+		var boolean exit; 
+		var char key;
+		var boolean gameOver;
+		var int wait; 
+		
+		let box = Box.new(50, 100, 4, 2, 2); // start with box on left side
+		let gameOver = false;
+		do Main.setWall(132); // start with right wall
+		let wait = 16; // speed of game (lower = faster)
+		
+		while (~gameOver) { // main game loop
+		
+			// waits for a key to be pressed
+			while ((key = 0) & ~gameOver) {
+				let key = Keyboard.keyPressed();
+				do Sys.wait(wait);
+				do box.updatePosition();
+				let gameOver = box.playerCollision();
+				
+				do box.updateScore();
+			}
+			
+			if (key = 81) { return; } 	// q key (exit)
+			do Main.setWall(key);
+			
+			// waits for the key to be released
+			while (~(key = 0) & ~gameOver) {
+				let key = Keyboard.keyPressed();
+				do Sys.wait(wait);
+				do box.updatePosition();
+				let gameOver = box.playerCollision();
+				
+				do box.updateScore();
+			}
+		}
+		do Output.moveCursor(1, 0);
+		do Output.printString("Game Over");
+		return;
+	}
+	
+	// draws the wall set by the player and sets the wall variable to that key in main and in the box
+	function void setWall(int key) {
+		if (key = 130) { 									// left arrow
+			do Screen.clearScreen(); 
+			do Screen.setColor(true);
+			do Screen.drawRectangle(0, 0, 255, 255);
+			let wall = 0;		// wall inside main
+			do box.setWall(0);	// wall inside box
+		} 
+		if (key = 131) { 									// up arrow
+			do Screen.clearScreen(); 
+			do Screen.setColor(true);
+			do Screen.drawRectangle(0, 0, 511, 127);
+			let wall = 1;
+			do box.setWall(1);
+		}
+		if (key = 132) { 									// right arrow
+			do Screen.clearScreen(); 
+			do Screen.setColor(true);
+			do Screen.drawRectangle(255, 0, 511, 255); 
+			let wall = 2;
+			do box.setWall(2);
+		}
+		if (key = 133) { 									// down arrow
+			do Screen.clearScreen(); 
+			do Screen.setColor(true);
+			do Screen.drawRectangle(0, 127, 511, 255); 
+			let wall = 3;
+			do box.setWall(3);
+		}	
+		if (key = 32) { 									// space
+			do Screen.setColor(true);
+			do Screen.drawRectangle(0, 0, 511, 255);
+			do Screen.setColor(false);
+			do Screen.drawRectangle(144, 72, 367, 183);
+			let wall = 4;
+			do box.setWall(4);
+		} 			
+		return;
+	}
+
+	
+}
