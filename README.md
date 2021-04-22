@@ -12,6 +12,8 @@ Avoid the box flying inside the screen by placing walls where the box is current
 
 # Video of Gameplay
 Link: https://gyazo.com/e85436737ae5cca00736f7005b81ffd7
+Gameplay of Updated Version with Restart: https://imgur.com/a/8lse1Qs
+
 
 # How to Use
 Download the folder "CS 3650 Project 9" > Open the VM Emulator supplied by nand2tetris > Load the directory > Accept the OS files > Play
