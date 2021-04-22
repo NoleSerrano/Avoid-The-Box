@@ -1,0 +1,187 @@
+// The moving box
+class Box {
+	field Box box;
+	
+	field int xvel; 	// current box's x velocity
+	field int yvel; 	// current box's y velocity
+	field int x;		// current box's x position
+	field int y;		// current box's y position
+	field int speed;	// base speed of box (xvel and yvel should be scaled based on screen width and height)
+	
+	field int wall;	// current wall(s) created by player
+	field int score; // score determined by number of collisions
+	field String stringScore; 
+		
+	// field variables used for pseudo-randomness
+	field int X;
+	field int prevX;
+	field int U;
+	
+	constructor Box new(int xi, int yi, int xveli, int yveli, int speedi) {
+		let x = xi;
+		let y = yi;
+		let xvel = xveli;
+		let yvel = yveli;
+		let speed = speedi;
+		let score = 0;
+		let stringScore = "Score: ";
+		
+		let X = 2053;
+		let prevX = 7001;
+		
+		return this;
+	}
+	
+	method void updateScore() {
+		do Output.moveCursor(0, 0);
+		do Output.printString(stringScore);
+		do Output.printInt(score);		
+		return;
+	}
+	
+	method void updatePosition() {
+		do erase(); // erase current
+		let x = x + xvel;
+		let y = y + yvel;
+		do screenCollision();
+		do draw(); // draw next >> need to check for screen collision
+		return;
+	}
+	
+	// check if box hit the player's wall(s) using the field variable "wall"
+	// if true then game over
+	method boolean playerCollision() { 
+		if (wall = 0) {		// left wall (check x)
+			if (x < 256) {
+				return true;
+			}
+			return false;
+		}
+		
+		if (wall = 1) { 	// up wall (check y)
+			if (y < 128) {
+				return true;
+			}
+			return false;
+		}
+		
+		if (wall = 2) { 	// right wall
+			if (x > 255) {
+				return true;
+			}
+			return false;
+		} 
+		
+		if (wall = 3) { 	// down wall
+			if (y > 127) {
+				return true;
+			}
+			return false;
+		}
+		
+		if (wall = 4) { 	// space wall
+			if ((x < 144) | (x > 367) | (y < 72) | (y > 183)) {
+				return true; 
+			}
+			return false; 
+		} 
+		
+		// no collision so game continues
+		return false;
+	}
+	
+	// check if box collided with the edge of the screen
+	// and updates velocities
+	method void screenCollision() {
+		// if statements calculated by knowing that the box is 3x3
+		// and the screen is 512x256
+		
+		// check x
+		if (x < 1) {
+			let x = 1; // make the box stay on the screen
+			let score = score + 1; // collision so +1 score
+			
+				if (randBool()) {
+					let xvel = 2 * speed; // speed is doubled because screenWidth is twice the height
+				} else {
+					let xvel = 4 * speed;
+				}
+		} 
+		else {
+			if (x > 510) { // else if
+				let x = 510;
+				let score = score + 1;
+				
+				if (randBool()) {
+					let xvel = -2 * speed;
+				} else {
+					let xvel = -4 * speed;
+				}
+			}
+		}
+		
+		// check y
+		if (y < 1) {
+			let y = 1;
+			let score = score + 1;
+			
+			if (randBool()) {
+				let yvel = 1 * speed;
+			} else {
+				let yvel = 2 * speed;
+			}
+		}
+		else {
+			if (y > 254) { // else if
+				let y = 254;
+				let score = score + 1;
+				
+				if (randBool()) {
+					let yvel = -1 * speed;
+				} else {
+					let yvel = -2 * speed;
+				}
+			}
+		}
+		return;
+	}
+	
+	// removes box from screen
+	method void erase() {
+		do Screen.setColor(false);
+		do Screen.drawRectangle(x-1, y-1, x+1, y+1);
+		return;
+	}
+	
+	method void draw() {
+		do Screen.setColor(true);
+		do Screen.drawRectangle(x-1, y-1, x+1, y+1);
+		return;
+	}
+	
+	// player's current wall(s) left = 130, up = 131, right = 132, down = 133, space = 32
+	// wall is used to check in playerCollision
+	method void setWall(int playerWall) {
+		let wall = playerWall;
+		return;
+	}
+	
+	method boolean randBool() {
+		let X = x * prevX + y;
+		let U = Math.divide(X, (y + 1));
+		let prevX = Math.divide(U, (y+1)) + x;
+		if (U < 0) { // taking advantage of overflow
+			let prevX = prevX - score;
+			return true;
+		} else {
+			let prevX = prevX + score;
+			return false;
+		}
+
+	}
+	
+	
+}
+
+
+

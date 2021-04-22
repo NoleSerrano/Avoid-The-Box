@@ -1,0 +1,4 @@
+q - quit
+r - restart
+arrow keys - walls in the direction of the arrow
+space - walls on the edges
