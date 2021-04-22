@@ -1,3 +1,6 @@
+
+https://user-images.githubusercontent.com/43283288/115656346-f1a2f380-a2e9-11eb-8316-82b421737c45.mp4
+
 # Avoid-The-Box
 This project is a part of the project 9 in the nand2tetris and CS 3650.
 
