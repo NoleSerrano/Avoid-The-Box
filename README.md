@@ -3,6 +3,8 @@ This project is a part of the project 9 in the nand2tetris and CS 3650.
 
 # Controls
 Arrow keys and space to create walls\
+q to quit\
+r to restart (will be implemented in updated version)\
 Note: The space is used to create edge walls on the chance that the box flies near the middle of the screen.
 
 # Objective of the Game
